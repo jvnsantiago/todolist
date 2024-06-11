@@ -67,7 +67,10 @@ O programa apresenta um menu interativo para o usuário:
 
 Autor
 Este projeto foi desenvolvido por:
+
 Ellen de Oliveira Melo
+
 Edna Juvêncio Nunes
+
 João Victor Noronha Cunha Santiago
 

@@ -9,7 +9,6 @@ public class Main {
     GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
     Scanner scanner = new Scanner(System.in);
 
-    
     int opcao = 0;
 
     while (opcao != 7) {
@@ -31,7 +30,7 @@ public class Main {
           adicionarTarefa(gerenciador, scanner);
           break;
         case 5:
-          gerenciador.listarTodasPastas();
+          gerenciador.listarTodasTarefas();
           break;
         case 6:
           removerTarefa(gerenciador, scanner);
@@ -45,7 +44,7 @@ public class Main {
 
     scanner.close();
   }
-  
+
   public static void menu() {
     System.out.println("TO-DO List" + "\n");
     System.out.println("Menu: " + "\n");
@@ -59,13 +58,13 @@ public class Main {
     System.out.print("Escolha uma opção: " + "\n");
   }
 
-  public static void criarPasta(GerenciadorDeTarefas gerenciador, Scanner scanner){
+  public static void criarPasta(GerenciadorDeTarefas gerenciador, Scanner scanner) {
     System.out.println("Digite o nome da pasta: ");
     String nomePasta = scanner.nextLine();
     gerenciador.adicionarPasta(nomePasta);
   }
 
-  public static void listarPastas(GerenciadorDeTarefas gerenciador){
+  public static void listarPastas(GerenciadorDeTarefas gerenciador) {
     List<Pasta> pastas = gerenciador.listarTodasPastas();
     System.out.println("Pastas encontradas: " + "\n");
     for (Pasta pasta : pastas) {
@@ -73,7 +72,7 @@ public class Main {
     }
   }
 
-  public static void removerPasta(GerenciadorDeTarefas gerenciador, Scanner scanner){
+  public static void removerPasta(GerenciadorDeTarefas gerenciador, Scanner scanner) {
     List<Pasta> pastas = gerenciador.listarTodasPastas();
     System.out.println("Pastas encontradas: " + "\n");
     for (Pasta pasta : pastas) {
@@ -81,37 +80,46 @@ public class Main {
     }
   }
 
-  public static void adicionarTarefa(GerenciadorDeTarefas gerenciador, Scanner scanner){
+  public static void adicionarTarefa(GerenciadorDeTarefas gerenciador, Scanner scanner) {
     System.out.println("Digite o nome da pasta onde deseja adicionar a tarefa: ");
     String nomePastaAdicionar = scanner.nextLine();
-    System.out.println("Digite o título da tarefa: ");
-    String tituloTarefa = scanner.nextLine();
-    System.out.println("Digite a descrição da tarefa: ");
-    String descricaoTarefa = scanner.nextLine();
-    System.out.println("Digite o status da tarefa (Concluida = 1/Pendente = 0): ");
-    boolean statusTarefa = scanner.nextBoolean();
-    scanner.nextLine();
-    //Data de início e prazo final faltando
-    System.out.println("Digite a prioridade da tarefa: ");
-    int prioridadeTarefa = scanner.nextInt();
-    Tarefas tarefa = new Tarefas(tituloTarefa, descricaoTarefa, statusTarefa, dataInicioTarefa, prazoTarefa, prioridadeTarefa);
+    Tarefas tarefa = preencheTarefa(scanner);
     gerenciador.adicionarTarefa(nomePastaAdicionar, tarefa);
   }
 
-  public static void removerTarefa(GerenciadorDeTarefas gerenciador, Scanner scanner){
+  public static void removerTarefa(GerenciadorDeTarefas gerenciador, Scanner scanner) {
     System.out.println("Digite o nome da pasta onde deseja remover a tarefa: ");
     String nomePastaRemover = scanner.nextLine();
+    Tarefas tarefa = preencheTarefa(scanner);
+    gerenciador.removerTarefa(nomePastaRemover, tarefa);
+  }
+
+  public static Tarefas preencheTarefa(Scanner scanner){
     System.out.println("Digite o título da tarefa: ");
     String tituloTarefa = scanner.nextLine();
     System.out.println("Digite a descrição da tarefa: ");
     String descricaoTarefa = scanner.nextLine();
-    System.out.println("Digite o status da tarefa (Concluida = 1/Pendente = 0): ");
+    System.out.println("Digite o status da tarefa (Concluida = true/Pendente = false): ");
     boolean statusTarefa = scanner.nextBoolean();
-    //Data de início e prazo final faltando
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    Date dataInicioTarefa = null;
+    System.out.println("Digite a data de início da tarefa (dd/MM/yyyy): ");
+    try {
+      dataInicioTarefa = sdf.parse(scanner.next());
+    } catch (ParseException e) {
+      System.out.println("Erro: Data inválida. Por favor, digite a data no formato dd/MM/yyyy.");
+    }
+    System.out.println("Digite a data de prazo da tarefa (dd/MM/yyyy): ");
+    Date prazoTarefa = null;
+    try {
+      prazoTarefa = sdf.parse(scanner.next());
+    } catch (ParseException e) {
+      System.out.println("Erro: Data inválida. Por favor, digite a data no formato dd/MM/yyyy.");
+    }
     System.out.println("Digite a prioridade da tarefa: ");
     int prioridadeTarefa = scanner.nextInt();
     Tarefas tarefa = new Tarefas(tituloTarefa, descricaoTarefa, statusTarefa, dataInicioTarefa, prazoTarefa, prioridadeTarefa);
+    return tarefa;
   }
 
 }
-

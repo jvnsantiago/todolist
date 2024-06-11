@@ -65,7 +65,7 @@ O programa apresenta um menu interativo para o usuário:
 6. **Remover Tarefa**: Digite `6` e insira o nome da pasta e os detalhes da tarefa a ser removida.
 7. **Sair**: Digite `7` para sair do programa.
 
-## Autores:
+### Autores:
 
 Este projeto foi desenvolvido por:
 

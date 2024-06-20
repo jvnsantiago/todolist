@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Tarefas {
+  int ID;
   String titulo;
   String descricaoTarefa;
   Boolean statusTarefa;
@@ -17,6 +18,14 @@ public class Tarefas {
     this.dataInicioTarefa = dataInicioTarefa;
     this.prazoTarefa = prazoTarefa;
     this.prioridadeTarefa = prioridadeTarefa;
+  }
+
+  public int getID(){
+    return this.ID;
+  }
+
+  public void setID(int ID){
+    this.ID = ID;
   }
 
   public String getTitulo() {

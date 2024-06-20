@@ -37,6 +37,7 @@ public class Main {
           break;
         case 7:
           System.out.println("Saindo do programa.");
+          break;
         default:
           System.out.println("Opção inválida. Digite novamente.");
       }
@@ -46,8 +47,10 @@ public class Main {
   }
 
   public static void menu() {
+    System.out.println("---------------");
     System.out.println("TO-DO List" + "\n");
-    System.out.println("Menu: " + "\n");
+    System.out.println("---------------");
+    System.out.println("Menu: ");
     System.out.println("1 - Criar pasta");
     System.out.println("2 - Listar pastas");
     System.out.println("3 - Remover Pasta");
@@ -55,6 +58,7 @@ public class Main {
     System.out.println("5 - Listar Tarefas");
     System.out.println("6 - Remover Tarefa");
     System.out.println("7 - Sair" + "\n");
+    System.out.println("---------------");
     System.out.print("Escolha uma opção: " + "\n");
   }
 
@@ -88,8 +92,9 @@ public class Main {
   public static void removerTarefa(GerenciadorDeTarefas gerenciador, Scanner scanner) {
     System.out.println("Digite o nome da pasta onde deseja remover a tarefa: ");
     String nomePastaRemover = scanner.nextLine();
-    Tarefas tarefa = preencheTarefa(scanner);
-    gerenciador.removerTarefa(nomePastaRemover, tarefa);
+    System.out.println("Digite o ID da tarefa a ser removida: ");
+    int idRemovido = scanner.nextInt();
+    gerenciador.removerTarefa(nomePastaRemover, idRemovido);
   }
 
   public static Tarefas preencheTarefa(Scanner scanner){
@@ -97,8 +102,19 @@ public class Main {
     String tituloTarefa = scanner.nextLine();
     System.out.println("Digite a descrição da tarefa: ");
     String descricaoTarefa = scanner.nextLine();
-    System.out.println("Digite o status da tarefa (Concluida = true/Pendente = false): ");
-    boolean statusTarefa = scanner.nextBoolean();
+    System.out.println("Digite o status da tarefa (Concluida/Pendente): ");
+    String status = scanner.nextLine();
+    while(!status.equalsIgnoreCase("Concluida") && !status.equalsIgnoreCase("Pendente")){
+      System.out.println("Status inválido. Digite novamente: ");
+      status = scanner.nextLine();
+    }
+    Boolean statusTarefa = false;
+    if (status.equalsIgnoreCase("Concluida")) {
+      statusTarefa = true;
+    }
+    else{
+      statusTarefa = false;
+    }
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     Date dataInicioTarefa = null;
     System.out.println("Digite a data de início da tarefa (dd/MM/yyyy): ");
@@ -114,10 +130,13 @@ public class Main {
     } catch (ParseException e) {
       System.out.println("Erro: Data inválida. Por favor, digite a data no formato dd/MM/yyyy.");
     }
-    System.out.println("Digite a prioridade da tarefa: ");
+    System.out.println("Digite a prioridade da tarefa: \n" + "1 - Alta \n" + "2 - Media \n" + "3 - Baixa");
     int prioridadeTarefa = scanner.nextInt();
     Tarefas tarefa = new Tarefas(tituloTarefa, descricaoTarefa, statusTarefa, dataInicioTarefa, prazoTarefa, prioridadeTarefa);
     return tarefa;
   }
 
 }
+
+
+//ADICIONAR UM EDITAR TAREFAS

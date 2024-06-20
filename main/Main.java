@@ -73,11 +73,9 @@ public class Main {
   }
 
   public static void removerPasta(GerenciadorDeTarefas gerenciador, Scanner scanner) {
-    List<Pasta> pastas = gerenciador.listarTodasPastas();
-    System.out.println("Pastas encontradas: " + "\n");
-    for (Pasta pasta : pastas) {
-      System.out.println(pasta.getNome());
-    }
+    System.out.println("Digite o nome da pasta que deseja remover");
+    String nomePastaRemover = scanner.nextLine();
+    gerenciador.removerPasta(nomePastaRemover);
   }
 
   public static void adicionarTarefa(GerenciadorDeTarefas gerenciador, Scanner scanner) {

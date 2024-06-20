@@ -6,27 +6,29 @@ public class Pasta {
     private List<Tarefas> tarefas;
 
     public Pasta(String nome) {
-        this.nome = nome;
-        this.tarefas = new ArrayList<>();
+      this.nome = nome;
+      this.tarefas = new ArrayList<>();
     }
 
     public String getNome() {
-        return nome;
+      return nome;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+      this.nome = nome;
     }
 
     public List<Tarefas> getTarefas() {
-        return tarefas;
+      return tarefas;
     }
 
     public void adicionarTarefa(Tarefas tarefa) {
-        this.tarefas.add(tarefa);
+      int id = tarefas.size() + 1;
+      tarefa.setID(id);
+      this.tarefas.add(tarefa);
     }
 
-    public void removerTarefa(Tarefas tarefa) {
-        this.tarefas.remove(tarefa);
+    public void removerTarefa(int id) {
+      tarefas.removeIf(tarefa -> tarefa.getID() == id);
     }
 }

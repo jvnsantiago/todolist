@@ -35,7 +35,7 @@ public class GerenciadorDeTarefas {
         return;
       }
     }
-    
+
   }
 
   public void adicionarTarefa(String nomePasta, Tarefas tarefa) {
@@ -53,11 +53,12 @@ public class GerenciadorDeTarefas {
     acessoDados.adicionarPasta(novaPasta);
   }
 
-  public void removerTarefa(String nomePasta, Tarefas tarefa) {
+  public void removerTarefa(String nomePasta, int id) {
     List<Pasta> pastas = acessoDados.getTodasPastas();
     for (Pasta pasta : pastas) {
       if (pasta.getNome().equals(nomePasta)) {
-        pasta.removerTarefa(tarefa);
+        pasta.removerTarefa(id);
+        System.out.println("Tarefa com ID " + id + " removida.");
         acessoDados.atualizarPasta(pasta);
         return;
       }
@@ -75,12 +76,15 @@ public class GerenciadorDeTarefas {
       System.out.println("Nome da pasta: " + pasta.getNome());
       List<Tarefas> tarefas = pasta.getTarefas();
       for (Tarefas tarefa : tarefas){
+        System.out.println("---------------");
+        System.out.println("ID da tarefa: " + tarefa.getID());
         System.out.println("Título da tarefa: " + tarefa.getTitulo());
         System.out.println("Descrição da tarefa: " + tarefa.getDescricaoTarefa());
         System.out.println("Status da tarefa: " + tarefa.getStatusTarefa());
         System.out.println("Data de início da tarefa: " + tarefa.getDataInicioTarefa());
         System.out.println("Data de prazo da tarefa: " + tarefa.getPrazoTarefa());
         System.out.println("Prioridade da tarefa: " + tarefa.getPrioridadeTarefa() + "\n");
+        System.out.println("---------------");
       }
     }
   }

@@ -9,8 +9,8 @@ public class GerenciadorDeTarefas {
 
   public void adicionarPasta(String nomePasta) {
     List<Pasta> pastas = acessoDados.getTodasPastas();
-    for (Pasta pasta : pastas){
-      if(pasta.getNome().equals(nomePasta)){
+    for (Pasta pasta : pastas) {
+      if (pasta.getNome().equals(nomePasta)) {
         System.out.println("Pasta já existe");
         return;
       }
@@ -26,8 +26,7 @@ public class GerenciadorDeTarefas {
     }
   }
 
-
-  public void removerPasta(String nomePasta) {
+  public void removerPasta(String nomePasta) throws PastaNaoEncontradaException {
     List<Pasta> pastas = acessoDados.getTodasPastas();
     for (Pasta pasta : pastas) {
       if (pasta.getNome().equals(nomePasta)) {
@@ -36,6 +35,7 @@ public class GerenciadorDeTarefas {
       }
     }
 
+    throw new PastaNaoEncontradaException("Pasta com nome \"" + nomePasta + "\" não encontrada.");
   }
 
   public void adicionarTarefa(String nomePasta, Tarefas tarefa) {
@@ -53,7 +53,7 @@ public class GerenciadorDeTarefas {
     acessoDados.adicionarPasta(novaPasta);
   }
 
-  public void removerTarefa(String nomePasta, int id) {
+  public void removerTarefa(String nomePasta, int id) throws PastaNaoEncontradaException {
     List<Pasta> pastas = acessoDados.getTodasPastas();
     for (Pasta pasta : pastas) {
       if (pasta.getNome().equals(nomePasta)) {
@@ -63,24 +63,45 @@ public class GerenciadorDeTarefas {
         return;
       }
     }
-    System.out.println("Tarefa não encontrada");
+    throw new PastaNaoEncontradaException("Pasta com nome \"" + nomePasta + "\" não encontrada.");
+  }
+
+  public void editarStatus(String nomePasta, int id) throws PastaNaoEncontradaException {
+    List<Pasta> pastas = acessoDados.getTodasPastas();
+    for (Pasta pasta : pastas) {
+      if (pasta.getNome().equals(nomePasta)) {
+        Tarefas tarefa = pasta.getTarefas().stream()
+            .filter(t -> t.getID() == id)
+            .findFirst()
+            .orElse(null);
+        if (tarefa != null) {
+          tarefa.setStatusTarefa(!tarefa.getStatusTarefa());
+          acessoDados.atualizarPasta(pasta);
+          System.out.println("Status da tarefa com ID " + id + " alterado para"
+              + (tarefa.getStatusTarefa() ? " Concluída" : " Pendente"));
+          return;
+        }
+      }
+    }
+    throw new PastaNaoEncontradaException("Pasta com nome \"" + nomePasta + "\" não encontrada.");
+
   }
 
   public List<Pasta> listarTodasPastas() {
     return acessoDados.getTodasPastas();
   }
 
-  public void listarTodasTarefas(){
+  public void listarTodasTarefas() {
     List<Pasta> pastas = acessoDados.getTodasPastas();
-    for (Pasta pasta : pastas){
+    for (Pasta pasta : pastas) {
       System.out.println("Nome da pasta: " + pasta.getNome());
       List<Tarefas> tarefas = pasta.getTarefas();
-      for (Tarefas tarefa : tarefas){
+      for (Tarefas tarefa : tarefas) {
         System.out.println("---------------");
         System.out.println("ID da tarefa: " + tarefa.getID());
         System.out.println("Título da tarefa: " + tarefa.getTitulo());
         System.out.println("Descrição da tarefa: " + tarefa.getDescricaoTarefa());
-        System.out.println("Status da tarefa: " + tarefa.getStatusTarefa());
+        System.out.println("Status da tarefa: " + (tarefa.getStatusTarefa()? "Concluída" : "Pendente"));
         System.out.println("Data de início da tarefa: " + tarefa.getDataInicioTarefa());
         System.out.println("Data de prazo da tarefa: " + tarefa.getPrazoTarefa());
         System.out.println("Prioridade da tarefa: " + tarefa.getPrioridadeTarefa() + "\n");
